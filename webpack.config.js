@@ -2,7 +2,7 @@ const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-// const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: './src/index.js',
@@ -37,6 +37,10 @@ module.exports = {
             // plugins: [ '@babel/plugin-proposal-class-properties' ]
           }
         }
+      },
+      {
+        test: /\.hbs$/,
+        use: ['handlebars-loader']
       }
     ],
   },
@@ -46,6 +50,10 @@ module.exports = {
       filename: 'styles.[contenthash].css'
     }),
     new CleanWebpackPlugin(),
-    // new HtmlWebpackPlugin(),
+    new HtmlWebpackPlugin({
+      template: 'src/index.hbs',
+      title: 'Web pack',
+      description: 'learning webpack',
+    }),
   ]
 };
