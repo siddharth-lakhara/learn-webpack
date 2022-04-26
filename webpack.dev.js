@@ -4,9 +4,12 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: './src/index.js',
+  entry: {
+    'hello-world': './src/hello-world.js',
+    strawberry: './src/strawberry.js',
+  },
   output: {
-    filename: 'bundle.[contenthash].js',
+    filename: '[name].js',
     path: path.resolve(__dirname, 'dist'),
     // Works out of the box so no need to specify.
     // useful for CDN or if serving static files via express
@@ -16,12 +19,12 @@ module.exports = {
   devServer: {
     port: 9000,
     static: {
-      directory: path.resolve(__dirname, './dist')
+      directory: path.resolve(__dirname, './dist'),
     },
     devMiddleware: {
       index: 'index.html',
       writeToDisk: true,
-    }
+    },
   },
   module: {
     rules: [
@@ -31,9 +34,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: [
-          MiniCssExtractPlugin.loader, 'css-loader'
-        ]
+        use: [MiniCssExtractPlugin.loader, 'css-loader'],
       },
       {
         test: /\.js$/,
@@ -41,27 +42,38 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: [ '@babel/env' ],
+            presets: ['@babel/env'],
             // Specific babel plugins can be loaded as follows:
             // plugins: [ '@babel/plugin-proposal-class-properties' ]
-          }
-        }
+          },
+        },
       },
       {
         test: /\.hbs$/,
-        use: ['handlebars-loader']
-      }
+        use: ['handlebars-loader'],
+      },
     ],
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: 'styles.[contenthash].css'
+      filename: '[name].css',
     }),
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      template: 'src/index.hbs',
-      title: 'Web pack',
-      description: 'learning webpack',
+      filename: 'hello-world.html',
+      chunks: ['hello-world'],
+      template: 'src/page-template.hbs',
+      title: 'Hello World',
+      description: 'hello world page',
+      minify: false,
     }),
-  ]
+    new HtmlWebpackPlugin({
+      filename: 'strawberry.html',
+      chunks: ['strawberry'],
+      template: 'src/page-template.hbs',
+      title: 'Strawberry',
+      description: 'Strawberry page',
+      minify: false,
+    }),
+  ],
 };
