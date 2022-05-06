@@ -13,7 +13,7 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     // Works out of the box so no need to specify.
     // useful for CDN or if serving static files via express
-    // publicPath: ''
+    publicPath: '/static/'
   },
   mode: 'production',
   optimization: {
@@ -56,7 +56,7 @@ module.exports = {
     }),
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      filename: 'hello-world.html',
+      filename: 'index.html',
       chunks: ['hello-world'],
       template: 'src/page-template.hbs',
       title: 'Hello World',
