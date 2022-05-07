@@ -56,7 +56,7 @@ module.exports = {
     }),
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      filename: 'index.html',
+      filename: 'hello-world.html',
       chunks: ['hello-world'],
       template: 'src/page-template.hbs',
       title: 'Hello World',
